@@ -43,7 +43,7 @@ class Airplane {
 class Person {
   constructor(name, age){
     this.name = name,
-    this.age = age
+    this.age = age,
     this.stomach = []
   }
   eat(someFood){
@@ -86,16 +86,20 @@ class Car {
     return this.tank += gallons;
   }
   drive(distance){
-    this.odometer += distance;
-    this.tank -= Math.floor(distance / this.milesPerGallon);
-
-    if(this.tank - Math.floor(distance / this.milesPerGallon) === 0){
-      return `I ran out of fuel at ${this.odometer} miles!`
-    }else{
-      return this.odometer;}
+    let maxRange = this.tank * this.milesPerGallon;
+    if(distance < maxRange){
+      this.odometer += distance;
+      this.tank -= (distance / this.milesPerGallon)
+      return this.odometer
     }
+   else if(distance >= maxRange){
+      this.odometer += maxRange;
+      this.tank = 0;
+      return `I ran out of fuel at ${this.odometer} miles!`
+    }
+    return this.odometer
   }
-
+}
 /*
   TASK 3
     - Write a Lambdasian class.
@@ -143,10 +147,17 @@ class Instructor extends Lambdasian {
   demo(subject){
     return `Today we are learning about ${subject}`
   }
-  grade(student, subject){
-    return `${student} receives a perfect score on ${subject}`
+ grade(student, subject){
+   return `${student.name} receives a perfect score on ${subject}`;
   }
-}
+//   grading(){
+//     let chance = Math.floor(Math.random() * 2);
+//     if( chance === 1){
+//       let lucky = Math.floor(Math.random() * 10);
+//       Student.grade = Student.grade - lucky
+//     }
+//   }
+ }
 
 /*
   TASK 5
@@ -169,6 +180,7 @@ class Student extends Lambdasian {
     this.previousBackground = attributes.previousBackground,
     this.className = attributes.className,
     this.favSubjects = attributes.favSubjects
+    this.grade = Math.floor(Math.random() * 100)
   }
   listSubjects(){
     return `Loving ${this.favSubjects},`
@@ -179,6 +191,13 @@ class Student extends Lambdasian {
   sprintChallenge(subject){
     return `${this.name} has begun spring challenge on ${subject}`
   }
+   gradeCheck(){
+     if(this.grade >= 70){
+      return `${this.name} is ready to graduate from Lambda School`
+     } else{
+       return `${this.name} is not ready to graduate. The passing grade is 70. Their grade is ${this.grade}. They are ${Math.abs(this.grade -70)} points away from graduating`
+      }
+    }
 }
 
 /*
@@ -201,10 +220,10 @@ class ProjectManager extends Instructor {
     this.favInstructor = attributes.favInstructor
   }
   standUp(channel){
-    return `${name} announces to ${channel}, @channel standy times! `
+    return `${this.name} announces to ${channel}, @channel standy times! `;
   }
   debugsCode(student, subject){
-    `${name} debugs ${student}'s code on ${subject}`
+   return `${this.name} debugs ${student.name}'s code on ${subject}`;
   }
 }
 
