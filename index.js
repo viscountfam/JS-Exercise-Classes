@@ -41,7 +41,24 @@ class Airplane {
 */
 
 class Person {
-
+  constructor(name, age){
+    this.name = name,
+    this.age = age,
+    this.stomach = []
+  }
+  eat(someFood){
+    if(this.stomach.length <=9){
+      return this.stomach.push(someFood);
+    }else{
+      return this.stomach;
+    }
+  }
+  poop(){
+    this.stomach = [];
+  }
+  toString(){
+    return `${this.name}, ${this.age}`;
+  }
 }
 
 /*
@@ -59,9 +76,30 @@ class Person {
 */
 
 class Car {
-
+  constructor(model, milesPerGallon){
+    this.tank = 0,
+    this.odometer = 0,
+    this.model = model,
+    this.milesPerGallon = milesPerGallon
+  }
+  fill(gallons){
+    return this.tank += gallons;
+  }
+  drive(distance){
+    let maxRange = this.tank * this.milesPerGallon;
+    if(distance < maxRange){
+      this.odometer += distance;
+      this.tank -= (distance / this.milesPerGallon)
+      return this.odometer
+    }
+   else if(distance >= maxRange){
+      this.odometer += maxRange;
+      this.tank = 0;
+      return `I ran out of fuel at ${this.odometer} miles!`
+    }
+    return this.odometer
+  }
 }
-
 /*
   TASK 3
     - Write a Lambdasian class.
@@ -75,7 +113,14 @@ class Car {
         + {name} and {location} of course come from the instance's own properties.
 */
 class Lambdasian {
-
+  constructor(attributes){
+    this.name = attributes.name,
+    this.age = attributes.age,
+    this.location = attributes.location
+  }
+  speak(){
+    return `Hello my name ${this.name}, I am from ${this.location}`
+  }
 }
 
 /*
@@ -92,9 +137,27 @@ class Lambdasian {
         + `demo` receives a `subject` string as an argument and returns the phrase 'Today we are learning about {subject}' where subject is the param passed in.
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
-class Instructor {
-
-}
+class Instructor extends Lambdasian {
+  constructor(attributes){
+    super(attributes);
+    this.specialty = attributes.specialty,
+    this.favLanguage = attributes.favLanguage,
+    this.catchPhrase = attributes.catchPhrase
+  }
+  demo(subject){
+    return `Today we are learning about ${subject}`
+  }
+ grade(student, subject){
+   return `${student.name} receives a perfect score on ${subject}`;
+  }
+//   grading(){
+//     let chance = Math.floor(Math.random() * 2);
+//     if( chance === 1){
+//       let lucky = Math.floor(Math.random() * 10);
+//       Student.grade = Student.grade - lucky
+//     }
+//   }
+ }
 
 /*
   TASK 5
@@ -111,8 +174,30 @@ class Instructor {
         + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
-class Student {
-
+class Student extends Lambdasian {
+  constructor(attributes) {
+    super(attributes);
+    this.previousBackground = attributes.previousBackground,
+    this.className = attributes.className,
+    this.favSubjects = attributes.favSubjects
+    this.grade = Math.floor(Math.random() * 100)
+  }
+  listSubjects(){
+    return `Loving ${this.favSubjects},`
+  }
+  PRAssignment(subject){
+    return `${this.name} ha submitted a PR for ${subject}`
+  }
+  sprintChallenge(subject){
+    return `${this.name} has begun spring challenge on ${subject}`
+  }
+   gradeCheck(){
+     if(this.grade >= 70){
+      return `${this.name} is ready to graduate from Lambda School`
+     } else{
+       return `${this.name} is not ready to graduate. The passing grade is 70. Their grade is ${this.grade}. They are ${Math.abs(this.grade -70)} points away from graduating`
+      }
+    }
 }
 
 /*
@@ -128,8 +213,18 @@ class Student {
         + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
-class ProjectManager {
-
+class ProjectManager extends Instructor {
+  constructor(attributes){
+    super(attributes);
+    this.gradClassName = attributes.gradClassName,
+    this.favInstructor = attributes.favInstructor
+  }
+  standUp(channel){
+    return `${this.name} announces to ${channel}, @channel standy times! `;
+  }
+  debugsCode(student, subject){
+   return `${this.name} debugs ${student.name}'s code on ${subject}`;
+  }
 }
 
 /*
